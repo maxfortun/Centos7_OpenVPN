@@ -1,0 +1,4 @@
+#!/bin/sh
+# /usr/local/sbin/unpriv-ip
+/bin/sudo /sbin/ip $*
+
