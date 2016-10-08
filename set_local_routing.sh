@@ -15,33 +15,12 @@ if [ -z "$link" ]; then
 	exit
 fi
 
+. ./set_net_env.sh $link
+
+eval gateway=\$${link}_gateway
+
 mark=${2-1}
 echo "$link: mark $mark"
-
-inet=$(ip address show $link | grep -P '^\s*inet\s[^\s]+')
-ippr=$(echo $inet|awk '{ print $2 }')
-
-ip=${ippr%%/*}
-echo "$link: ip $ip"
-
-if [ "$ip" != "$ippr" ]; then
-	prefix=${ippr##*/}
-	network=$(ipcalc -n $ippr|cut -d= -f2)
-else
-	peerpr=$(echo $inet|awk '{ print $4 }')
-	network=${peerpr%%/*}
-	prefix=${peerpr##*/}
-fi
-
-echo "$link: prefix $prefix"
-echo "$link: network $network"
-
-gateway=$(ip route|grep -oP "(?<=via )[\d.]+(?= dev $link)"|sort -fu)
-if [ -z "$gateway" ]; then
-	gateway=$ip
-fi
-echo "$link: Gateway $gateway"
-exit
 
 table=$link
 

@@ -11,7 +11,7 @@ fi
 LOG=/var/run/openvpn/learn-address.log
 
 echo $(date '+%Y-%m-%d %H:%M:%S') $* >> $LOG
-env | xargs -L 1 echo $(date '+%Y-%m-%d %H:%M:%S') $address >> $LOG
+env | sort | xargs -L 1 echo $(date '+%Y-%m-%d %H:%M:%S') $address >> $LOG
  
 case $action in
         add|update)
