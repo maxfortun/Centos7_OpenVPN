@@ -5,7 +5,7 @@ link=$1
 if [ -z "$link" ]; then
 	echo "Usage: source ${BASH_SOURCE[0]} <id>"
 	echo "Where id is one of the following:"
-	ip link show|grep -o -P '(?<=^\d:\s)[^:]+'|grep -v '^lo$'
+	ip link show|grep -o -P '(?<=\d:\s)[^:]+'|grep -v '^lo$'
 	[ "${BASH_SOURCE[0]}" != "$0" ] && return || exit
 fi
 

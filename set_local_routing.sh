@@ -11,7 +11,7 @@ if [ -z "$link" ]; then
 	echo "Usage to run commands: debug= $0 <id> [mark]"
 	echo "Where mark is optional and is a number"
 	echo "Where id is one of the following:"
-	ip link show|grep -o -P '(?<=^\d:\s)[^:]+'|grep -v '^lo$'
+	ip link show|grep -o -P '(?<=\d:\s)[^:]+'|grep -v '^lo$'
 	exit
 fi
 
