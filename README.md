@@ -1,6 +1,10 @@
 # OpenVPN
 
-Some scripts that are required for openvpn to work
+Some scripts and info that are required for openvpn to work
+
+## General
+
+https://www.privacytools.io
 
 ## SELinux
 If you have SELinux running, you may want to run openvpn_unpriv_hack.sh to allow log writing, script execution and sudo.
