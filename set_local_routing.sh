@@ -2,6 +2,7 @@
 # In some configurations it is needed to explicitly route local traffic back to the requesting network interface
 # Such as during the initial openvpn handshaking.
 # this script needs to be executed only once.
+cd $(dirname $0)
 
 debug=${debug-echo}
 
