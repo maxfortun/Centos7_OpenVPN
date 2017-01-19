@@ -24,7 +24,13 @@ if [ "$?" = "1" ]; then
 	VBoxManage modifyvm "$VBOX_VM" --memory 1024 --vram 128
 	VBoxManage modifyvm "$VBOX_VM" --ioapic on
 	VBoxManage modifyvm "$VBOX_VM" --boot1 dvd --boot2 disk --boot3 none --boot4 none
-	VBoxManage modifyvm "$VBOX_VM" --nic1 bridged 
+	VBoxManage modifyvm "$VBOX_VM" --nic1 bridged --bridgeadapter1 en0
+	VBoxManage modifyvm "$VBOX_VM" --mouse usb
+	VBoxManage modifyvm "$VBOX_VM" --vrde on --vrdeport 5000
+
+	#VBoxManage setextradata "$VBOX_VM" "VBoxInternal/Devices/pcnet/0/LUN#0/Config/guestssh/Protocol" TCP
+	#VBoxManage setextradata "$VBOX_VM" "VBoxInternal/Devices/pcnet/0/LUN#0/Config/guestssh/GuestPort" 22
+	#VBoxManage setextradata "$VBOX_VM” "VBoxInternal/Devices/pcnet/0/LUN#0/Config/guestssh/HostPort" 2222
 
 	VBoxManage storagectl "$VBOX_VM" --name "SATA Controller" --add sata --controller IntelAHCI
 	VBoxManage storagectl "$VBOX_VM" --name "IDE Controller" --add ide
@@ -49,4 +55,5 @@ if [ -f "$VBOX_ISO" ]; then
 	VBoxManage storageattach "$VBOX_VM" --storagectl "IDE Controller" --port 0 --device 0 --type dvddrive --medium "$VBOX_ISO"
 fi
 
-VBoxHeadless -s $VBOX_VM
+VBoxManage startvm "$VBOX_VM" --type headless
+
