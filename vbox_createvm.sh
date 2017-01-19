@@ -23,7 +23,7 @@ if [ "$?" = "1" ]; then
 
 	VBoxManage modifyvm "$VBOX_VM" --memory 1024 --vram 128
 	VBoxManage modifyvm "$VBOX_VM" --ioapic on
-	VBoxManage modifyvm "$VBOX_VM" --boot1 dvd --boot2 disk --boot3 none --boot4 none
+	VBoxManage modifyvm "$VBOX_VM" --boot1 dvd --boot2 disk --boot3 net --boot4 none
 	VBoxManage modifyvm "$VBOX_VM" --nic1 bridged --bridgeadapter1 en0
 	VBoxManage modifyvm "$VBOX_VM" --mouse usb
 	VBoxManage modifyvm "$VBOX_VM" --vrde on --vrdeport 5000
