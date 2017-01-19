@@ -3,6 +3,8 @@
 # https://community.openvpn.net/openvpn/wiki/BridgingAndRouting
 # 
 
+cd $(dirname $0)
+
 debug=${debug-echo}
 
 LOCAL_IF=$1
