@@ -55,5 +55,9 @@ if [ -f "$VBOX_ISO" ]; then
 	VBoxManage storageattach "$VBOX_VM" --storagectl "IDE Controller" --port 0 --device 0 --type dvddrive --medium "$VBOX_ISO"
 fi
 
+VBoxHeadless -s "$VBOX_VM" 
+VBoxManage storageattach "$VBOX_VM" --storagectl "IDE Controller" --port 0 --device 0 --type dvddrive --medium none
+
 VBoxManage startvm "$VBOX_VM" --type headless
+
 
