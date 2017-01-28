@@ -42,6 +42,9 @@ _EOT_
 
 systemctl restart network.service
 
+chgrp openvpn /var/run/openvpn/
+chmod g+w /var/run/openvpn/
+
 systemctl -f enable openvpn@serverudp.service
 systemctl -f enable openvpn@servertcp.service
 
