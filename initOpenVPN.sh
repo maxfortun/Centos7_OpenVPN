@@ -2,6 +2,8 @@
 
 # https://www.digitalocean.com/community/tutorials/how-to-setup-and-configure-an-openvpn-server-on-centos-7
 
+SWD=$(dirname $0)
+
 yum -y install epel-release
 yum -y install openvpn easy-rsa 
 yum -y install policycoreutils-python
@@ -13,7 +15,10 @@ systemctl stop firewalld
 systemctl start iptables
 iptables --flush
 
-cp server*.conf /etc/openvpn
+cp server*.conf learn-address.sh /etc/openvpn
+cp openvpn.sudoers /etc/sudoers.d/openvpn
+cp unpriv-ip /usr/local/sbin/unpriv-ip
+./openvpn_unpriv_hack.sh
 
 mkdir -p /etc/openvpn/easy-rsa/keys
 cp -rf /usr/share/easy-rsa/2.0/* /etc/openvpn/easy-rsa

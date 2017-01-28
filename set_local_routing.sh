@@ -23,10 +23,19 @@ eval gateway=\$${link}_gateway
 mark=${2-1}
 echo "$link: mark $mark"
 
-table=$link
 
 $debug iptables -t mangle -A PREROUTING -m conntrack --ctstate NEW -i $link -j CONNMARK --set-mark $mark
 $debug iptables -t mangle -A OUTPUT -m connmark --mark $mark -j CONNMARK --restore-mark
+
+table=$link
+tableId=$(grep -P "^\d+\s+$table" /etc/iproute2/rt_tables|awk '{ print $1 }')
+if [ -z "$tableId" ]; then
+	echo "$table: Table is missing"
+	tableId=$(grep -P '^\d' /etc/iproute2/rt_tables|grep -Pv '^0\s'|sort -n|head -1|awk '{ print $1 }')
+	tableId=$(( tableId-1 ))
+	echo "$tableId  $table" >> /etc/iproute2/rt_tables
+fi
+echo "$table: Table $tableId"
 
 $debug ip route add default via $gateway table $table
 $debug ip rule add fwmark $mark table $table
