@@ -26,15 +26,17 @@ cp /etc/openvpn/easy-rsa/openssl-1.0.0.cnf /etc/openvpn/easy-rsa/openssl.cnf
 cd /etc/openvpn/easy-rsa
 sed -i 's/\(KEY_NAME="\)[^"]*"/KEY_NAME="server"/g' vars
 source ./vars
+export EASY_RSA="${EASY_RSA:-.}"
 ./clean-all
-./build-ca
-./build-key-server server
+"$EASY_RSA/pkitool" --initca --sign
+"$EASY_RSA/pkitool" --server --sign server
 ./build-dh
 cd /etc/openvpn/easy-rsa/keys
 cp dh2048.pem ca.crt server.crt server.key /etc/openvpn
 
 cd /etc/openvpn/easy-rsa
-./build-key client
+"$EASY_RSA/pkitool" --sign client
+
 
 cat <<_EOT_ >> /etc/sysctl.conf
 net.ipv4.ip_forward = 1
