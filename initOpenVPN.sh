@@ -2,12 +2,15 @@
 
 # https://www.digitalocean.com/community/tutorials/how-to-setup-and-configure-an-openvpn-server-on-centos-7
 
+# CWD - current work dir
+# SWD = script work dir
+CWD=$(pwd)
 SWD=$(dirname $0)
+cd $SWD
+SWD=$(pwd)
+cd $CWD
 
-yum -y install epel-release
-yum -y install openvpn easy-rsa 
-yum -y install policycoreutils-python
-yum -y install iptables-services 
+yum -y install epel-release openvpn easy-rsa policycoreutils-python iptables-services bind-utils 
 
 systemctl mask firewalld
 systemctl enable iptables
@@ -41,17 +44,7 @@ cp dh2048.pem ca.crt server.crt server.key /etc/openvpn
 cd /etc/openvpn/easy-rsa
 "$EASY_RSA/pkitool" --sign client
 
-wanIP=$(dig +short myip.opendns.com @resolver1.opendns.com)
-CA=$(cat ca.crt)
-PUB=$(cat server.crt)
-PRI=$(cat server.key)
-
-for ovpn in *.ovpn; do
-	sed "s/your-publicly-accessible-ip-here/$wanIP/g" $ovpn
-	sed "s/... your ca cert here .../$CA/g" $ovpn
-	sed "s/... your client public cert here .../$PUB/g" $ovpn
-	sed "s/... your client private key here .../$PRI/g" $ovpn
-done
+$SWD/genOVPN.sh
 
 cat <<_EOT_ >> /etc/sysctl.conf
 net.ipv4.ip_forward = 1
