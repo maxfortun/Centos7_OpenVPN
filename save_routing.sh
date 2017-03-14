@@ -1,6 +1,6 @@
 #!/bin/bash
 
-iptables-save > /etc/sysconfig/iptables
+iptables-save | awk ' !x[$0]++' > /etc/sysconfig/iptables
 ip link show|grep -o -P '(?<=\d:\s)[^:]+'|grep -v '^lo$' | while read link; do
 	routes=$(ip route show table $link 2>/dev/null)
 	if [ -n "$routes" ]; then

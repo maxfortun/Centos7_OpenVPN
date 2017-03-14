@@ -18,6 +18,11 @@ systemctl stop firewalld
 systemctl start iptables
 iptables --flush
 
+# May want to replace this line with something more granular
+# iptables -A INPUT -p udp -m state --state NEW -m udp --dport 1194 -j ACCEPT
+# iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 1194 -j ACCEPT
+iptables-save > /etc/sysconfig/iptables
+
 cp server*.conf learn-address.sh /etc/openvpn
 cp openvpn.sudoers /etc/sudoers.d/openvpn
 cp unpriv-ip /usr/local/sbin/unpriv-ip
@@ -59,4 +64,10 @@ systemctl -f enable openvpn@servertcp.service
 
 systemctl start openvpn@serverudp.service
 systemctl start openvpn@servertcp.service
+
+cat <<_EOT_
+Run set_local_routing.sh then set_iptables.sh.
+Test your config to make sure it works.
+If everything is ok, then save config using save_routing.sh.
+_EOT_
 
