@@ -32,35 +32,33 @@ $debug iptables	-I FORWARD \
 		-s $VPNIN_NETWORK/$VPNIN_PREFIX -d $LOCAL_NETWORK/$LOCAL_PREFIX \
 		-m conntrack --ctstate NEW -j ACCEPT
 
-if [ -n "$VPNOUT_IF" ]; then
-	. ./set_net_env.sh $VPNOUT_IF
-	eval VPNOUT_NETWORK=\$${VPNOUT_IF}_network
-	eval VPNOUT_PREFIX=\$${VPNOUT_IF}_prefix
-
-	# Allow traffic initiated from LAN to access "the world"
-	$debug iptables	-I FORWARD \
-			-i $LOCAL_IF -o $VPNOUT_IF \
-		 	-s $LOCAL_NETWORK/$LOCAL_PREFIX \
-			-m conntrack --ctstate NEW -j ACCEPT
-
-	# Allow traffic initiated from VPN to access "the world"
-	$debug iptables	-I FORWARD \
-			-i $VPNIN_IF -o $VPNOUT_IF \
-			-s $VPNIN_NETWORK/$VPNIN_PREFIX \
-			-m conntrack --ctstate NEW -j ACCEPT
-
-	# Masquerade traffic from VPN to "the world" -- done in the nat table
-	$debug iptables	-t nat -I POSTROUTING -o $VPNOUT_IF \
-		  	-s $VPNIN_NETWORK/$VPNIN_PREFIX -j MASQUERADE
-
-	# Masquerade traffic from LAN to "the world"
-	$debug iptables	-t nat -I POSTROUTING -o $VPNOUT_IF \
-		  	-s $LOCAL_NETWORK/$LOCAL_PREFIX -j MASQUERADE
-else
-	# Masquerade traffic from VPN to "the world" -- done in the nat table
-	$debug iptables	-t nat -I POSTROUTING -o $LOCAL_IF \
-		  	-s $VPNIN_NETWORK/$VPNIN_PREFIX -j MASQUERADE
+if [ -z "$VPNOUT_IF" ]; then
+	VPNOUT_IF=$LOCAL_IF
 fi
+
+. ./set_net_env.sh $VPNOUT_IF
+eval VPNOUT_NETWORK=\$${VPNOUT_IF}_network
+eval VPNOUT_PREFIX=\$${VPNOUT_IF}_prefix
+
+# Allow traffic initiated from LAN to access "the world"
+$debug iptables	-I FORWARD \
+		-i $LOCAL_IF -o $VPNOUT_IF \
+	 	-s $LOCAL_NETWORK/$LOCAL_PREFIX \
+		-m conntrack --ctstate NEW -j ACCEPT
+
+# Allow traffic initiated from VPN to access "the world"
+$debug iptables	-I FORWARD \
+		-i $VPNIN_IF -o $VPNOUT_IF \
+		-s $VPNIN_NETWORK/$VPNIN_PREFIX \
+		-m conntrack --ctstate NEW -j ACCEPT
+
+# Masquerade traffic from VPN to "the world" -- done in the nat table
+$debug iptables	-t nat -I POSTROUTING -o $VPNOUT_IF \
+	  	-s $VPNIN_NETWORK/$VPNIN_PREFIX -j MASQUERADE
+
+# Masquerade traffic from LAN to "the world"
+$debug iptables	-t nat -I POSTROUTING -o $VPNOUT_IF \
+	  	-s $LOCAL_NETWORK/$LOCAL_PREFIX -j MASQUERADE
 
 # Allow established traffic to pass back and forth
 $debug iptables	-I FORWARD \
