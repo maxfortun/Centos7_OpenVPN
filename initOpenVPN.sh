@@ -10,7 +10,7 @@ cd $SWD
 SWD=$(pwd)
 cd $CWD
 
-yum -y install epel-release openvpn easy-rsa policycoreutils-python iptables-services bind-utils traceroute net-tools
+yum -y install epel-release openvpn easy-rsa policycoreutils-python iptables-services bind-utils traceroute net-tools NetworkManager-config-routing-rules
 
 systemctl mask firewalld
 systemctl enable iptables
