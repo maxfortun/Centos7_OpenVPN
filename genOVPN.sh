@@ -1,14 +1,14 @@
 #!/bin/bash
 wanIP=$(dig +short myip.opendns.com @resolver1.opendns.com)
-CA=$(cat ca.crt)
+CA=$(cat easy-rsa/keys/ca.crt)
 CA=${CA//$'\n'/\\$'\n'}
 CA=${CA//$'\r'/\\$'\r'}
 
-PUB=$(cat server.crt)
+PUB=$(cat easy-rsa/keys/client.crt)
 PUB=${PUB//$'\n'/\\$'\n'}
 PUB=${PUB//$'\r'/\\$'\r'}
 
-PRI=$(cat server.key)
+PRI=$(cat easy-rsa/keys/client.key)
 PRI=${PRI//$'\n'/\\$'\n'}
 PRI=${PRI//$'\r'/\\$'\r'}
 
