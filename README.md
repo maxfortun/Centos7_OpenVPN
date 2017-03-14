@@ -18,6 +18,7 @@ You will need this in order to apply rules and routes on reboot: yum install -y 
 
 Run set_local_routing.sh then set_iptables.sh. Test your config to make sure it works. If everything is ok, then persist using save_routing.sh.
 
+Make sure your default route is properly set in /etc/sysconfig/network
 
 It may be possible to avoid using iptables and use firewalld instead. I have not tested these.   
 firewall-cmd --permanent --add-service openvpn   
