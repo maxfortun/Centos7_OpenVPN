@@ -20,7 +20,7 @@ fi
 
 eval gateway=\$${link}_gateway
 
-mark=${2-1}
+mark=${2:-1}
 echo "$link: mark $mark"
 
 
