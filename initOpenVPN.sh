@@ -65,6 +65,13 @@ systemctl -f enable openvpn@servertcp.service
 systemctl start openvpn@serverudp.service
 systemctl start openvpn@servertcp.service
 
+sed -i 's#listen-on port 53.*$#listen-on port 53 { 127.0.0.1; 10.8.1.1; };#g' /etc/named.conf
+sed -i 's#allow-query .*$#allow-query { localhost; 10.8.1.0/24; };#g' /etc/named.conf
+named-checkconf
+
+systemctl -f enable named
+systemctl start named
+
 cat <<_EOT_
 Run set_local_routing.sh then set_iptables.sh.
 Test your config to make sure it works.
