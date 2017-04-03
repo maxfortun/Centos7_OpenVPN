@@ -57,6 +57,7 @@ _EOT_
 
 systemctl restart network.service
 
+sed -i 's/ root / openvpn /g' /usr/lib/tmpfiles.d/openvpn.conf
 chown openvpn:openvpn /var/run/openvpn/
 
 systemctl -f enable openvpn@serverudp.service
