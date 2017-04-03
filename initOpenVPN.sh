@@ -1,4 +1,5 @@
 #!/bin/bash
+wanHost="$1"
 
 # https://www.digitalocean.com/community/tutorials/how-to-setup-and-configure-an-openvpn-server-on-centos-7
 
@@ -49,7 +50,7 @@ cp dh2048.pem ca.crt server.crt server.key /etc/openvpn
 cd /etc/openvpn/easy-rsa
 "$EASY_RSA/pkitool" --sign client
 
-$SWD/genOVPN.sh
+$SWD/genOVPN.sh "$wanHost"
 
 cat <<_EOT_ >> /etc/sysctl.conf
 net.ipv4.ip_forward = 1

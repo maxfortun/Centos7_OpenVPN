@@ -11,6 +11,13 @@ Some scripts and info that are required for openvpn to work
 ## SELinux
 If you have SELinux running, you may want to run openvpn_unpriv_hack.sh to allow log writing, script execution and sudo.
 
+## Install
+
+1. git clone this repo to newly created Centos 7 VM
+2. run initOpenVPN.sh "your-external-hostname-or-dyndns-hostname-or-ip-here"
+if you do not specify a parameter, your external ip will be used. Keep in mind that DHCP assigned ips change and you may end up without access if that happens.
+3. Follow routing section below to setup proper routing. Do not forget to save your changes.
+
 ## Routing
 Need to set the routing to allow the initial incoming vpn handshake and world access.
 

@@ -1,5 +1,8 @@
 #!/bin/bash
-wanIP=$(dig +short myip.opendns.com @resolver1.opendns.com)
+wanHost="$1"
+if [ -z "$wanHost" ]; then
+	wanHost=$(dig +short myip.opendns.com @resolver1.opendns.com)
+fi
 CA=$(cat easy-rsa/keys/ca.crt)
 CA=${CA//$'\n'/\\$'\n'}
 CA=${CA//$'\r'/\\$'\r'}
@@ -13,7 +16,7 @@ PRI=${PRI//$'\n'/\\$'\n'}
 PRI=${PRI//$'\r'/\\$'\r'}
 
 for ovpn in *.ovpn; do
-	sed -i "s#your-publicly-accessible-ip-here#$wanIP#g" $ovpn
+	sed -i "s#your-publicly-accessible-ip-here#$wanHost#g" $ovpn
 	sed -i "s#... your ca cert here ...#$CA#g" $ovpn
 	sed -i "s#... your client public cert here ...#$PUB#g" $ovpn
 	sed -i "s#... your client private key here ...#$PRI#g" $ovpn
