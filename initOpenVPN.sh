@@ -41,13 +41,14 @@ cd /etc/openvpn/easy-rsa
 ./easyrsa build-ca nopass
 ./easyrsa gen-req server nopass
 ./easyrsa sign-req server server
+./easyrsa gen-req client nopass
+./easyrsa sign-req client client
 ./easyrsa gen-dh
 
-cd /etc/openvpn/easy-rsa/keys
-cp dh2048.pem ca.crt server.crt server.key /etc/openvpn
+cd /etc/openvpn/easy-rsa/pki
+cp dh*.pem ca.crt issued/server.crt private/server.key /etc/openvpn
 
 cd /etc/openvpn/easy-rsa
-./easyrsa sign-req client client
 
 $SWD/genOVPN.sh "$wanHost"
 
