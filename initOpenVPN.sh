@@ -36,22 +36,17 @@ cp -rf /usr/share/easy-rsa/$easyRSAVersion/* /etc/openvpn/easy-rsa
 openSSLCFG=$(ls -1 /etc/openvpn/easy-rsa/openssl-*.cnf|sort -V|tail -1)
 cp $openSSLCFG /etc/openvpn/easy-rsa/openssl.cnf
 cd /etc/openvpn/easy-rsa
-sed -i 's/\(KEY_NAME="\)[^"]*"/KEY_NAME="server"/g' vars
-source ./vars
+./easyrsa init-pki
+./easyrsa build-ca nopass
+./easyrsa gen-req server nopass
+./easyrsa sign-req server server
+./easyrsa gen-dh
 
-export EASY_RSA="${EASY_RSA:-.}"
-
-./clean-all
-
-"$EASY_RSA/pkitool" --initca --sign
-"$EASY_RSA/pkitool" --server --sign server
-
-./build-dh
 cd /etc/openvpn/easy-rsa/keys
 cp dh2048.pem ca.crt server.crt server.key /etc/openvpn
 
 cd /etc/openvpn/easy-rsa
-"$EASY_RSA/pkitool" --sign client
+./easyrsa sign-req client client
 
 $SWD/genOVPN.sh "$wanHost"
 
