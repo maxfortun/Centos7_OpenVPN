@@ -3,15 +3,20 @@ wanHost="$1"
 if [ -z "$wanHost" ]; then
 	wanHost=$(dig +short myip.opendns.com @resolver1.opendns.com)
 fi
-CA=$(cat easy-rsa/keys/ca.crt)
+
+cd /etc/openvpn
+
+PKI=/etc/openvpn/easy-rsa/pki
+
+CA=$(cat $PKI/ca.crt)
 CA=${CA//$'\n'/\\$'\n'}
 CA=${CA//$'\r'/\\$'\r'}
 
-PUB=$(cat easy-rsa/keys/client.crt)
+PUB=$(cat $PKI/issued/client.crt)
 PUB=${PUB//$'\n'/\\$'\n'}
 PUB=${PUB//$'\r'/\\$'\r'}
 
-PRI=$(cat easy-rsa/keys/client.key)
+PRI=$(cat $PKI/private/client.key)
 PRI=${PRI//$'\n'/\\$'\n'}
 PRI=${PRI//$'\r'/\\$'\r'}
 

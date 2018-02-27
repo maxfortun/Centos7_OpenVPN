@@ -25,7 +25,7 @@ iptables --flush
 # iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 1194 -j ACCEPT
 iptables-save > /etc/sysconfig/iptables
 
-cp server*.conf learn-address.sh /etc/openvpn
+cp server*.conf client*.ovpn learn-address.sh /etc/openvpn
 cp openvpn.sudoers /etc/sudoers.d/openvpn
 cp unpriv-ip /usr/local/sbin/unpriv-ip
 ./openvpn_unpriv_hack.sh
