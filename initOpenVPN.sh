@@ -38,11 +38,11 @@ openSSLCFG=$(ls -1 /etc/openvpn/easy-rsa/openssl-*.cnf|sort -V|tail -1)
 cp $openSSLCFG /etc/openvpn/easy-rsa/openssl.cnf
 cd /etc/openvpn/easy-rsa
 ./easyrsa init-pki
-./easyrsa build-ca nopass
-./easyrsa gen-req server nopass
-./easyrsa sign-req server server
-./easyrsa gen-req client nopass
-./easyrsa sign-req client client
+./easyrsa --batch build-ca nopass
+./easyrsa --batch gen-req server nopass
+./easyrsa --batch sign-req server server
+./easyrsa --batch gen-req client nopass
+./easyrsa --batch sign-req client client
 ./easyrsa gen-dh
 
 cd /etc/openvpn/easy-rsa/pki
