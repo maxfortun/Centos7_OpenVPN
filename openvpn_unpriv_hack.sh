@@ -1,6 +1,8 @@
 #!/bin/bash
 # Instructions from https://community.openvpn.net/openvpn/wiki/UnprivilegedUser
 
+sestatus | grep disabled && exit 
+
 cd $(dirname $0)
 
 basename=$(basename $0 .sh)
