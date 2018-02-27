@@ -33,7 +33,8 @@ cp unpriv-ip /usr/local/sbin/unpriv-ip
 mkdir -p /etc/openvpn/easy-rsa/keys
 easyRSAVersion=$(ls -1 /usr/share/easy-rsa/|sort -V|tail -1)
 cp -rf /usr/share/easy-rsa/$easyRSAVersion/* /etc/openvpn/easy-rsa
-cp /etc/openvpn/easy-rsa/openssl-1.0.0.cnf /etc/openvpn/easy-rsa/openssl.cnf
+openSSLCFG=$(ls -1 /etc/openvpn/easy-rsa/openssl-*.cnf|sort -V|tail -1)
+cp $openSSLCFG /etc/openvpn/easy-rsa/openssl.cnf
 cd /etc/openvpn/easy-rsa
 sed -i 's/\(KEY_NAME="\)[^"]*"/KEY_NAME="server"/g' vars
 source ./vars
