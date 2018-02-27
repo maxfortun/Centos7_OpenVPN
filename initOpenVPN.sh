@@ -30,6 +30,7 @@ cp openvpn.sudoers /etc/sudoers.d/openvpn
 cp unpriv-ip /usr/local/sbin/unpriv-ip
 ./openvpn_unpriv_hack.sh
 
+# https://community.openvpn.net/openvpn/wiki/EasyRSA3-OpenVPN-Howto
 mkdir -p /etc/openvpn/easy-rsa/keys
 easyRSAVersion=$(ls -1 /usr/share/easy-rsa/|sort -V|tail -1)
 cp -rf /usr/share/easy-rsa/$easyRSAVersion/* /etc/openvpn/easy-rsa
